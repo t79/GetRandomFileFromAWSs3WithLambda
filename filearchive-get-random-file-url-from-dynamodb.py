@@ -13,7 +13,9 @@ def lambda_handler(event, context):
         response = dynamoDBClient.scan(TableName=databaseTable)
 
         list = response['Items']  # <--- Getting out all the entries from the database.
-        randomFileName = list[0]['name']['S']  # <--- Getting the filename of the first entry.
+        randomFileName = ''
+        if len(list):
+            randomFileName = list[0]['name']['S']  # <--- Getting the filename of the first entry.
 
         # randomObject = choice()
         # randomObject[]
