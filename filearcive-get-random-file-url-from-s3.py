@@ -1,9 +1,9 @@
 import json
 import boto3
-from random import choice  # <--- Importing method for selecting a random item in a list.
+from random import choice
 
 bucketName = "filearchive.t79.it"
-urlDomain = "http://filearchive.t79.it.s3-website-eu-west-1.amazonaws.com/"  # <--- The domain in the URL.
+urlDomain = "http://filearchive.t79.it.s3-website-eu-west-1.amazonaws.com/"
 
 
 def lambda_handler(event, context):
@@ -18,12 +18,12 @@ def lambda_handler(event, context):
         for object in objectsResponse["Contents"]:
             fileNamesList.append(object["Key"])
 
-        randomFileName = choice(fileNamesList)  # <--- Choosing randomly one name in the list.
+        randomFileName = choice(fileNamesList)
 
     except Exception as e:
         raise e
 
     return {
-        'statusCode': 200,
-        'body': urlDomain + randomFileName  # <--- Setting the URL to the file in the response.
+        'statusCode': 301,  # <--- Changing the status code.
+        'location': urlDomain + randomFileName  # <--- Changing to the key for that status.
     }
