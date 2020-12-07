@@ -1,13 +1,18 @@
-#import boto3
+import boto3  # <--- Adding the AWS python library
 #from random import choice
 
-urlDomain = "http://filearchive.t79.it.s3-website-eu-west-1.amazonaws.com/"
+urlDomain = 'http://filearchive.t79.it.s3-website-eu-west-1.amazonaws.com/'
+regionName = 'eu-west-1'                # <--- Adding position and name for the database.
+databaseTable = 'filearchivenames'      #
+
 
 def lambda_handler(event, context):
-    # Client = boto3.client()
+    dynamoDBClient = boto3.client('dynamodb',region_name=regionName)  # <--- Creating a low-level DynamoDB client.
 
     try:
-        print('Ned something inside of try for just making this code to run!')
+        response = dynamoDBClient.scan(TableName=databaseTable)  # <--- Getting the content of the database.
+
+        print(response)  # <--- Printing out the database response.
         # randomObject = choice()
         # randomFileName = randomObject[]
 
