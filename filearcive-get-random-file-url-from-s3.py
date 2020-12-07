@@ -24,6 +24,10 @@ def lambda_handler(event, context):
         raise e
 
     return {
-        'statusCode': 301,  # <--- Changing the status code.
-        'location': urlDomain + randomFileName  # <--- Changing to the key for that status.
+        'statusCode': 301,
+        'headers': {                                        # <--- Adding cache control
+            'Cache-Control': 'no-store, must-revalidate',   #
+            'Vary': 'Cookie'                                #
+        },
+        'location': urlDomain + randomFileName
     }
