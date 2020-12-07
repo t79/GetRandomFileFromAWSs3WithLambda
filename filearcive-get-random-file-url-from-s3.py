@@ -14,20 +14,18 @@ def lambda_handler(event, context):
         if 'Contents' not in objectsResponse:
             return {'statusCode': 404}
 
-        fileNamesList = []
-        for object in objectsResponse["Contents"]:
-            fileNamesList.append(object["Key"])
-
-        randomFileName = choice(fileNamesList)
+        objects = objectsResponse['Contents']   # <--- Alternativ way for getting the filename
+        randomObject = choice(objects)          #
+        randomFileName = randomObject['Key']    #
 
     except Exception as e:
         raise e
 
     return {
         'statusCode': 301,
-        'headers': {                                        # <--- Adding cache control
-            'Cache-Control': 'no-store, must-revalidate',   #
-            'Vary': 'Cookie'                                #
+        'headers': {
+            'Cache-Control': 'no-store, must-revalidate',
+            'Vary': 'Cookie'
         },
         'location': urlDomain + randomFileName
     }
