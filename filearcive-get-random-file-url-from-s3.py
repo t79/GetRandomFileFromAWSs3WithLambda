@@ -11,8 +11,6 @@ def lambda_handler(event, context):
         if 'Contents' not in objectsResponse:                       # <--- Checking that bucket are not empty
             return {'statusCode': 404}                              #
 
-        print(objectsResponse)
-
     except Exception as e:
         raise e
 
