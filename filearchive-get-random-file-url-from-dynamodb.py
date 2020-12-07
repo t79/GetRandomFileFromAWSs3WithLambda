@@ -1,5 +1,5 @@
 import boto3
-#from random import choice
+from random import choice  # <--- Adding the method for getting a random entry in a list
 
 urlDomain = 'http://filearchive.t79.it.s3-website-eu-west-1.amazonaws.com/'
 regionName = 'eu-west-1'
@@ -12,13 +12,11 @@ def lambda_handler(event, context):
     try:
         response = dynamoDBClient.scan(TableName=databaseTable)
 
-        list = response['Items']  # <--- Getting out all the entries from the database.
+        list = response['Items']
         randomFileName = ''
         if len(list):
-            randomFileName = list[0]['name']['S']  # <--- Getting the filename of the first entry.
-
-        # randomObject = choice()
-        # randomObject[]
+            randomEntry = choice(list)                  # <--- Getting a random entry and its filename
+            randomFileName = randomEntry['name']['S']   #
 
     except Exception as e:
         raise e
@@ -29,5 +27,5 @@ def lambda_handler(event, context):
             'Cache-Control': 'no-store, must-revalidate',
             'Vary': 'Cookie'
         },
-        'location': urlDomain + randomFileName # <--- Adding the filename to the URL.
+        'location': urlDomain + randomFileName
     }
